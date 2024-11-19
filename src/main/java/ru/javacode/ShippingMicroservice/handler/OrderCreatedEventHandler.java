@@ -24,6 +24,7 @@ public class OrderCreatedEventHandler {
     public void handle(OrderCreatedEvent orderCreatedEvent) throws ExecutionException, InterruptedException {
         LOGGER.info("Received event: {}", orderCreatedEvent.getNameProduct());
         //TODO logic shipping order
+        orderCreatedEvent.setShipping(true);
         SendResult<String, Object> result = kafkaTemplate
                 .send("sent-orders-topic", orderCreatedEvent.getProductId(), orderCreatedEvent).get();
         LOGGER.info("Topic: {}", result.getRecordMetadata().topic());
